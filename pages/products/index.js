@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Image from 'next/image';
 import Link from 'next/link';
+import styles from '../../styles/Home.module.css'
 
 const Products = () => {
 
@@ -32,9 +33,9 @@ const Products = () => {
     return (
         <>
         <ul>
-            <li onClick={() => setFilter('')}> All products </li>
+            <li onClick={() => setFilter('')} className={styles.category}> All products </li>
             {category.map(cat => 
-                <li key={cat} onClick={() => setFilter(cat)}>
+                <li key={cat} className={styles.category} onClick={() => setFilter(cat)}>
                     {cat}
                 </li>)}
         </ul>

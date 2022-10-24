@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import styles from '../../styles/Home.module.css'
 
 const Product = () => {
     const router = useRouter();
@@ -29,6 +31,9 @@ const Product = () => {
         <h5> Description: {product.description} </h5>
         <h5>Price: {product.price} </h5>
         <h5>Reviews: {product.rating.count} Score: {product.rating.rate}</h5>
+        <Link href={"/products"}>
+          <a className={styles.category}> Back </a>
+        </Link>
     </>
     )
 }

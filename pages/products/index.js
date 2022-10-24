@@ -7,6 +7,7 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [category, setCategory] =useState([]);
     const [isLoading, setLoading] = useState(false)
+    const [filter, setFilter] = useState('');
 
     useEffect(() => {
         setLoading(true)
@@ -23,7 +24,7 @@ const Products = () => {
         })
     }, []);
 
-    console.log(category);
+    console.log(filter);
     
 
     if (isLoading) return <p>Loading...</p>
@@ -31,14 +32,23 @@ const Products = () => {
     return (
         <>
         <ul>
+            <li onClick={() => setFilter('')}> All products </li>
             {category.map(cat => 
-                <li key={cat}>
+                <li key={cat} onClick={() => setFilter(cat)}>
                     {cat}
                 </li>)}
         </ul>
         <h1> List of products: </h1>
         <ul>
-            {products.map(product =>
+            {products
+            .filter(list => {
+                if (filter === "") {
+                return list; 
+                } else if (list.category.includes(filter)){
+                    return list; 
+                }
+            })
+            .map(product =>
             <li key={product.id}> 
             <Link href={`/products/${product.id}`}>
                 <a>

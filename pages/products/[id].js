@@ -5,15 +5,12 @@ import Image from 'next/image';
 const Product = () => {
     const router = useRouter();
     const {id} = router.query;
-
     const [product, setProduct] = useState('')
     const [isLoading, setLoading] = useState(false)
 
-    console.log(id)
-
      useEffect(() => {
         if(router.isReady) {
-            setLoading(false)
+            setLoading(true)
             fetch(`https://fakestoreapi.com/products/${id}`)
             .then((res) => res.json())
             .then((data) => {

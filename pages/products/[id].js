@@ -4,25 +4,41 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css'
 
-const Product = () => {
+export async function getStaticPaths() {
+    const res = await fetch('https://fakestoreapi.com/products');
+    const products = await res.json();
+    const paths = products.map((product) => ({
+        params: { id: product.id.toString() },
+    }))
+    return { paths, fallback: false }
+}
+
+export async function getStaticProps({ params }) {
+    // the params comes from getStaticPath
+    const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+    const product = await res.json();
+    return { props: { product } }
+}
+
+const Product = ({product}) => {
     const router = useRouter();
     const {id} = router.query;
-    const [product, setProduct] = useState('')
-    const [isLoading, setLoading] = useState(false)
+    // const [product, setProduct] = useState('')
+    // const [isLoading, setLoading] = useState(false)
 
-     useEffect(() => {
-        if(router.isReady) {
-            setLoading(true)
-            fetch(`https://fakestoreapi.com/products/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setProduct(data)
-                setLoading(false)
-            })}
-    }, [router.isReady, id]);
+    //  useEffect(() => {
+    //     if(router.isReady) {
+    //         setLoading(true)
+    //         fetch(`https://fakestoreapi.com/products/${id}`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setProduct(data)
+    //             setLoading(false)
+    //         })}
+    // }, [router.isReady, id]);
 
-    if (isLoading) return <p> Loading... </p>
-    if (!product) return <p> No profile data </p>
+    // if (isLoading) return <p> Loading... </p>
+    // if (!product) return <p> No profile data </p>
 
     return (
     <> 

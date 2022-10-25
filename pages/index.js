@@ -18,6 +18,9 @@ export default function Home() {
         <Link href={"/products"}>
           <a className={styles.category}> View all products </a>
         </Link>
+        <Link href={"/chucknorris"}>
+          <a className={styles.category}> View all Chuck Norris quotes </a>
+        </Link>
       </main>
 
       <footer className={styles.footer}>

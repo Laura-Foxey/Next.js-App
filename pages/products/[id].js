@@ -23,6 +23,8 @@ export async function getStaticProps({ params }) {
 const Product = ({product}) => {
     const router = useRouter();
     const {id} = router.query;
+
+    //-------------old fetch data:--------------
     // const [product, setProduct] = useState('')
     // const [isLoading, setLoading] = useState(false)
 

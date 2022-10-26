@@ -22,13 +22,13 @@ const Quote = ({quote}) => {
     }
 
     const upvoting = () => {
-        setVote( vote + 1);
+        setVote(vote = vote + 1);
         updateVote();
     }
 
     const downvoting = () => {
         if (vote > 0) {
-            setVote( vote - 1); 
+            setVote(vote = vote - 1); 
             updateVote();
         }
         return;

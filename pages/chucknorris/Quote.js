@@ -27,7 +27,7 @@ const Quote = ({quote}) => {
     }
 
     const downvoting = () => {
-        if (vote !== 0) {
+        if (vote > 0) {
             setVote( vote - 1); 
             updateVote();
         }

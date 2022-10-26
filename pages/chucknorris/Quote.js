@@ -40,7 +40,6 @@ const Quote = ({quote}) => {
             <h5> Votes: {vote} </h5>
             <h5 onClick={() => upvoting()} > + </h5>
             <h5 onClick={() => downvoting()} > - </h5>
-            
         </>
     )
 }

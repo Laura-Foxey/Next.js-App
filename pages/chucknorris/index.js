@@ -1,6 +1,7 @@
-import { db } from "../../firebaseConfig"
-import { addDoc, doc, getDoc, getDocs, collection, query} from "firebase/firestore";
-import { useEffect } from "react";
+
+import Quote from "./Quote";
+import { addDoc, doc, getDoc, getDocs, collection, query, setDoc, where} from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps() {
     const res = await fetch('https://api.chucknorris.io/jokes/search?query=triangle');
@@ -14,7 +15,8 @@ export async function getServerSideProps() {
 }
 
 const Quotes = ({quotes}) => {
-    console.log(quotes);
+    // const docRef = doc(db, "votes", "xLNByuipSF-Ib2rNmuk3PQ");
+    // getDoc(docRef).then((data) => console.log(data.data().id));
 
     //--used--
     // const populateDB = () => {
@@ -31,17 +33,7 @@ const Quotes = ({quotes}) => {
     return (
         <>
             <h3> Quotes: </h3>
-            <ul>
-                {quotes.result.map(quote =>
-                    <li key={quote.id}>
-                        <h3>{quote.value}</h3>
-                        <div>
-                            <h3> + </h3>
-                            <h3> </h3>
-                            <h3> - </h3>
-                        </div>
-                    </li>)}
-            </ul>
+            {quotes.result.map(quote => <Quote quote={quote} key={quote.id}/>)}
         </>
     )
 }

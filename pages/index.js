@@ -2,9 +2,28 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Login from './login';
+import {signOut } from "firebase/auth";
+import {auth} from "./../firebaseConfig";
+import { useRouter } from 'next/router';
+
 
 export default function Home() {
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
 
+  if (loading) return <p>Loading...</p>;
+  if (!user) return <Login />;
+
+  const signMeOut = () => {
+    signOut(auth).then(() => {
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
+  console.log(user);
 
   return (
     <div className={styles.container}>
@@ -21,6 +40,7 @@ export default function Home() {
         <Link href={"/chucknorris"}>
           <a className={styles.category}> View all Chuck Norris quotes </a>
         </Link>
+        <div onClick={signMeOut}>Log out</div>
       </main>
 
       <footer className={styles.footer}>

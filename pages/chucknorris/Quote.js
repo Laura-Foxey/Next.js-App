@@ -10,7 +10,7 @@ const Quote = ({quote}) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
-    //fetch comments from db and stores in state
+    //fetch comments from db and store in state
     const getDocuments = useMemo (() => {
         const q = query(collection(db, "comments"), where("id", "==", quote.id));
         getDocs(q).then((data) => data.forEach((d) => 
@@ -23,7 +23,7 @@ const Quote = ({quote}) => {
             getDoc(docRef).then((data) => setVote(data.data().votes));
         }, [vote])
 
-    //updates votes from db
+    //update votes from db
     const updateVote = () => {
         setDoc(doc(db, "votes", quote.id), {
             id: quote.id,
@@ -31,15 +31,15 @@ const Quote = ({quote}) => {
           });
     }
 
-    //changed vote and updates to db
+    //change vote and updates to db
     const upvoting = () => {
-        setVote(vote = vote + 1);
+        setVote(prev => prev + 1);
         updateVote();
     }
 
     const downvoting = () => {
         if (vote > 0) {
-            setVote(vote = vote - 1); 
+            setVote(prev => prev - 1); 
             updateVote();
         }
         return;
@@ -48,7 +48,7 @@ const Quote = ({quote}) => {
     //comment form
     const submitComment = async (event) => {
         event.preventDefault();
-        alert(`So your comment is ${event.target.comment.value}?`);
+        alert(`This is your comment: ${event.target.comment.value}`);
         //add comment to DB
         addDoc(collection(db, "comments"), {comment: event.target.comment.value, user: user.email, createdAt: Date.now(), id: quote.id})
         //temporarily stores it in local state until refresh when it fetches from DB
@@ -67,13 +67,14 @@ const Quote = ({quote}) => {
     };
     
     if (loading) return (<p> Please stand by. </p>)
+    
     return (
         <>
             <h3> {quote.value} </h3>
             <h5> Votes: {vote} </h5>
             <h5 onClick={() => upvoting()} > + </h5>
             <h5 onClick={() => downvoting()} > - </h5>
-            <form className="flex flex-col" onSubmit={submitComment}>
+            <form onSubmit={submitComment}>
             <textarea
                 id="comment"
                 value={newComment}
@@ -92,7 +93,7 @@ const Quote = ({quote}) => {
                 <ul>{comments.map((com) => <li key={com.createdAt+com.user} onClick={() => itemDetails(com.createdAt)}> 
                     {com.user} at {new Date(com.createdAt).getDate()}.{new Date(com.createdAt).getMonth() + 1}.
                     {new Date(com.createdAt).getFullYear()} {new Date(com.createdAt).getHours()}:{new Date(com.createdAt).getMinutes()}
-                {com.clicked && <div> {com.comment} </div>}
+                    {com.clicked && <div> {com.comment} </div>}
                 </li>)}
                 </ul>
             </div>

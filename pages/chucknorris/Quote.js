@@ -9,25 +9,15 @@ const Quote = ({quote}) => {
 
     const [user, loading] = useAuthState(auth);
     const [vote, setVote] =useState(0);
-    const [comments, setComments] = useState([{comment: '', user: '', id: ''}]);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
-    // const docRef = doc(db, "votes", "xLNByuipSF-Ib2rNmuk3PQ");
-    // getDoc(docRef).then((data) => console.log(data.data().id));
-
-
     useEffect(() => {
-        const setArrayCondition = (d) => 
-        {
-            if (comments[0].comment === '' && comments[0].user === '') { setComments([{comment: d.data().comment, user: d.data().user, id: quote.id}])}
-            else {setComments(prev =>[...prev, {comment: d.data().comment, user: d.data().user, id: quote.id}])}
-        }
-
             const docRef = doc(db, "votes", quote.id);
             getDoc(docRef).then((data) => setVote(data.data().votes));
             const q = query(collection(db, "comments"), where("id", "==", quote.id));
             getDocs(q).then((data) => data.forEach((d) => 
-                setArrayCondition(d)))
+                setComments(prev =>[...prev, {comment: d.data().comment, user: d.data().user, id: quote.id}])))
         }, [quote.id])
 
     useEffect(() => {} , [vote])
